@@ -1,6 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Potta+One&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   outline: 0;
   box-sizing: border-box;
+}
+
+body {
+  background-color: #EEE;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+#header {
+  background-color: #353545;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#header h1 {
+  color: #F7F7F7;
+  padding: 10px 0;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#main-header h2 {
+  font-size: 30px;
+  margin: 50px 0;
+}
+
+#gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+  background: #353545;
+  padding: 5px;
+}
+
+#gameboard button {
+  cursor: pointer;
+  transition: all .2s;
+  background: #EEE;
+  border: none;
+  border-radius: 0;
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  font-family: 'Potta One';
+}
+
+#gameboard button:hover {
+  background-color: #E1E1E1;
 }
