@@ -10,6 +10,22 @@ const gameBoard = (function () {
   };
 })();
 
+const displayController = (function(gb) {
+  const grid = document.querySelectorAll('#gameboard button');
+  const turn = document.querySelector('#main-header h2');
+
+  const renderGameBoard = () => {
+    const board = gb.getGameBoard();
+    grid.forEach((position, index) => position.textContent = board[index]);
+  }
+
+  const displayPlayer = (player) => {
+    turn.textContent = `${player.getName()}'s turn`;
+  }
+
+  return { renderGameBoard, displayPlayer, grid };
+})(gameBoard);
+
 function player(name, mark) {
   const getName = () => name;
   const setName = (newName) => name = newName;
@@ -24,24 +40,27 @@ function player(name, mark) {
   };
 }
 
-const displayController = (function(gameboard) {
-  const grid = document.querySelectorAll('#gameboard button');
-  const turn = document.querySelector('#main-header h2');
-
+const gameController = (function(gb, dc) {
+  const grid = dc.grid;
+  
   const player1 = player('Player1', 'X');
   const player2 = player('Player2', 'O');
   let actualPlayer;
   changePlayer();
+  dc.displayPlayer(actualPlayer);
 
   grid.forEach((position, index) => {
-    position.addEventListener('click', () => {
-      if (!position.textContent) {
-        gameboard.setGameBoard(index, actualPlayer.getMark());
-        changePlayer();
-        renderGameBoard();
-      }       
-    });
+    position.addEventListener('click', mark.bind(position, index));
   });
+
+  function mark(index) {
+    if (!this.textContent) {
+      gb.setGameBoard(index, actualPlayer.getMark());
+      changePlayer();
+      dc.displayPlayer(actualPlayer);
+      dc.renderGameBoard();
+    }    
+  }
 
   function changePlayer() {
     if (!actualPlayer) {
@@ -51,13 +70,7 @@ const displayController = (function(gameboard) {
     } else {
       actualPlayer = player1;
     }
-    turn.textContent = `${actualPlayer.getName()}'s turn`;
+    return actualPlayer;
   }
 
-  const renderGameBoard = () => {
-    const board = gameboard.getGameBoard();
-    grid.forEach((position, index) => position.textContent = board[index]);
-  }
-
-  return { renderGameBoard };
-})(gameBoard);
+})(gameBoard, displayController);
