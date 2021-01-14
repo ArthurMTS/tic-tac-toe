@@ -14,6 +14,8 @@ const displayController = (function(gb) {
   const grid = document.querySelectorAll('#gameboard button');
   const turn = document.querySelector('#main-header h2');
 
+  const getGrid = () => grid;
+
   const renderGameBoard = () => {
     const board = gb.getGameBoard();
     grid.forEach((position, index) => position.textContent = board[index]);
@@ -26,7 +28,7 @@ const displayController = (function(gb) {
   return { 
     renderGameBoard,
     displayPlayer, 
-    grid
+    getGrid
   };
 
 })(gameBoard);
@@ -46,7 +48,8 @@ function player(name, mark) {
 }
 
 const gameController = (function(gb, dc) {
-  const grid = dc.grid;
+  const grid = dc.getGrid();
+  let gameOver = false;
   
   const player1 = player('Player1', 'X');
   const player2 = player('Player2', 'O');
@@ -55,11 +58,11 @@ const gameController = (function(gb, dc) {
   dc.displayPlayer(actualPlayer);
 
   grid.forEach((position, index) => {
-    position.addEventListener('click', mark.bind(position, index));
+    position.addEventListener('click', move.bind(position, index));
   });
 
-  function mark(index) {
-    if (!this.textContent) {
+  function move(index) {
+    if (!this.textContent && !gameOver) {
       gb.setGameBoard(index, actualPlayer.getMark());
       checkWinner(actualPlayer);
       changePlayer();
@@ -76,7 +79,6 @@ const gameController = (function(gb, dc) {
     } else {
       actualPlayer = player1;
     }
-    return actualPlayer;
   }
 
   function checkWinner(player) {
@@ -90,10 +92,11 @@ const gameController = (function(gb, dc) {
         (board[2] === board[5] && board[5] === board[8] && board[2]) ||
         (board[0] === board[4] && board[4] === board[8] && board[0]) ||
         (board[2] === board[4] && board[4] === board[6]) && board[2]) {
+          gameOver = true;
           console.log('Winner ' + player.getName());
+        } else if (board.every(place => place)) {
+          console.log('TIE');
         }
   }
 
 })(gameBoard, displayController);
-
-displayController.renderGameBoard();
