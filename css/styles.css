@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   background-color: #EEE;
   font-family: 'Roboto', Arial, sans-serif;
@@ -30,11 +34,24 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+#game-div {
+  display: none;
+}
+
+#main-header {
+  margin: 50px 0;
 }
 
 #main-header h2 {
   font-size: 30px;
-  margin: 50px 0;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 #gameboard {
@@ -60,4 +77,67 @@ body {
 
 #gameboard button:hover {
   background-color: #E1E1E1;
+}
+
+#choose-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFF;
+  margin-top: 30px;
+  padding-bottom: 50px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px gray;
+  width: 50vw;
+  display: none;
+}
+
+#players {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px 20px 0 20px;
+}
+
+#players div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px 20px 15px;
+}
+
+#players div input {
+  padding: 5px;
+  font-size: 18px;
+}
+
+.player-icon {
+  margin-bottom: 10px;
+  width: 100px;
+}
+
+.btn {
+  padding: 10px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #353545;
+  color: #F7F7F7;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: all .2s;
+  display: block;
+  margin: 0 auto;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+@media (max-width: 1080px) {
+  #players {
+    flex-direction: column;
+  }
 }
